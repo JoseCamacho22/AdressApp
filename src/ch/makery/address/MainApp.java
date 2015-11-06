@@ -1,27 +1,15 @@
-/*package ch.makery.address;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-
-public class MainApp extends Application {
-
-	@Override
-	public void start(Stage primaryStage) {
-		
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-}
-*/
 
 
 package ch.makery.address;
 
 import java.io.IOException;
 
+import ch.makery.address.model.Person;
+import ch.makery.address.view.PersonOverviewController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -31,9 +19,40 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 	
+	 /**
+     * The data as an observable list of Persons.
+     */
+    private ObservableList<Person> personData = FXCollections.observableArrayList();
 
+    /**
+     * Constructor
+     */
+    public MainApp() {
+        // Add some sample data
+        personData.add(new Person("Hans", "Muster"));
+        personData.add(new Person("Ruth", "Mueller"));
+        personData.add(new Person("Heinz", "Kurz"));
+        personData.add(new Person("Cornelia", "Meier"));
+        personData.add(new Person("Werner", "Meyer"));
+        personData.add(new Person("Lydia", "Kunz"));
+        personData.add(new Person("Anna", "Best"));
+        personData.add(new Person("Stefan", "Meier"));
+        personData.add(new Person("Martin", "Mueller"));
+    }
+
+    /**
+     * Returns the data as an observable list of Persons. 
+     * @return
+     */
+    public ObservableList<Person> getPersonData() {
+        return personData;
+    }
+
+    // ... THE REST OF THE CLASS ...
     private Stage primaryStage;
     private BorderPane rootLayout;
+    
+    
 
     @Override
     public void start(Stage primaryStage) {
@@ -69,6 +88,9 @@ public class MainApp extends Application {
      * 
 		Muestra el resumen persona dentro de la disposición de la raíz.
      */
+    /**
+     * Shows the person overview inside the root layout.
+     */
     public void showPersonOverview() {
         try {
             // Load person overview.
@@ -78,10 +100,16 @@ public class MainApp extends Application {
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(personOverview);
+
+            // Give the controller access to the main app.
+            PersonOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Returns the main stage.

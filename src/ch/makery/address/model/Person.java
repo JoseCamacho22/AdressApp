@@ -128,4 +128,3 @@ public class Person {
  *es parte de la nueva API de JDK 8 para la fecha y la hora.
 
  */
-LocalDate, el tipo que usamos para especificar la fecha de nacimiento (birthday) es parte de la nueva API de JDK 8 para la fecha y la hora.
