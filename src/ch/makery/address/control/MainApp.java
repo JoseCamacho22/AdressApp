@@ -21,8 +21,10 @@ import java.io.IOException;
 
 
 
+
 import ch.makery.address.model.Person;
 import ch.makery.address.model.PersonListWrapper;
+import ch.makery.address.view.BirthdayStatisticsController;
 import ch.makery.address.view.PersonEditDialogController;
 import ch.makery.address.view.PersonOverviewController;
 import ch.makery.address.view.RootLayoutController;
@@ -202,6 +204,18 @@ public class MainApp extends Application {
             return false;
         }
     }
+    
+    
+    public File getPersonFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        String filePath = prefs.get("filePath", null);
+        if (filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+    
 
     /**
      * Returns the main stage.
@@ -223,16 +237,7 @@ public class MainApp extends Application {
      * 
      * @return
      */
-    public File getPersonFilePath() {
-        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-        String filePath = prefs.get("filePath", null);
-        if (filePath != null) {
-            return new File(filePath);
-        } else {
-            return null;
-        }
-    }
-    
+  
     /**
      * Sets the file path of the currently loaded file. The path is persisted in
      * the OS specific registry.
@@ -295,7 +300,7 @@ public class MainApp extends Application {
             wrapper.setPersons(personData);
 
             // Marshalling and saving XML to the file.
-            m.marshal(wrapper, file);
+            m.marshal(wrapper,file);
 
             // Save the file path to the registry.
             setPersonFilePath(file);
@@ -303,6 +308,30 @@ public class MainApp extends Application {
             Dialogs.create().title("Error")
                     .masthead("Could not save data to file:\n" + file.getPath())
                     .showException(e);
+        }
+    }
+    
+    public void showBirthdayStatistics() {
+        try {
+            // Load the fxml file and create a new stage for the popup.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/BirthdayStatistics.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Birthday Statistics");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the persons into the controller.
+            BirthdayStatisticsController controller = loader.getController();
+            controller.setPersonData(personData);
+
+            dialogStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
