@@ -1,5 +1,6 @@
 .background {
     -fx-background-color: #1d1d1d;
+    -fx-background-image:url("../../../../../resources/images/EEUU.jpg"); 
 }
 
 .label {
@@ -12,12 +13,12 @@
 .label-bright {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: #000000;
     -fx-opacity: 1;
 }
 
 .label-header {
-    -fx-font-size: 32pt;
+    -fx-font-size: 22pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -46,14 +47,16 @@
         derive(-fx-base, 80%) 
         transparent;
     -fx-border-insets: 0 10 1 0;
+    
 }
 
 .table-view .column-header .label {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #7401DF;
     -fx-alignment: center-left;
     -fx-opacity: 1;
+   
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
@@ -100,18 +103,68 @@
  */
 .button {
     -fx-padding: 5 22 5 22;   
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #FBFBEF;
     -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #FBFBEF;
+    -fx-font-family: "Segoe UI", Helvetica,Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #7401DF;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-image: url("../../../../../resources/images/ic_camera_white_24dp.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: left;
+}
+.buttonedit {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-color: #FBFBEF;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color:#FBFBEF;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #7401DF;
+    -fx-background-insets: 0 0 0 0,0,1,2;
+    -fx-background-image: url("../../../../../resources/images/ic_center_focus_strong_white_24dp.png");
+ 	 -fx-background-repeat: no-repeat;
+  	-fx-background-position: left;
+  
+}
+.buttondelete {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-color: #FBFBEF;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color:#FBFBEF;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #7401DF;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-image: url("../../../../../resources/images/ic_center_focus_strong_white_24dp.png");
+  	-fx-background-repeat: no-repeat;
+ 	-fx-background-position: left;
+  
+}
+
+.buttonew {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-color: #FBFBEF;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color:#FBFBEF;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #7401DF;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-image: url("../../../../../resources/images/ic_center_focus_strong_white_24dp.png");
+  	-fx-background-repeat: no-repeat;
+ 	-fx-background-position: left;
+  
 }
 
 .button:hover {
     -fx-background-color: #3a3a3a;
+    -fx-font-weight:bold;
 }
 
 .button:pressed, .button:default:hover:pressed {
@@ -139,5 +192,5 @@
 }
 
 .button:default:hover {
-    -fx-background-color: derive(-fx-focus-color,30%);
+    -fx-background-color:derive(-fx-focus-color,30%);
 }

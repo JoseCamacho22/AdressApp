@@ -1,43 +1,7 @@
 package ch.makery.address.control;
 
-import javafx.application.Application;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import ch.makery.address.model.Person;
-import ch.makery.address.model.PersonListWrapper;
-import ch.makery.address.view.BirthdayStatisticsController;
-import ch.makery.address.view.PersonEditDialogController;
-import ch.makery.address.view.PersonOverviewController;
-import ch.makery.address.view.RootLayoutController;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
@@ -47,9 +11,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.controlsfx.dialog.Dialogs;
 
-import ch.makery.address.model.Person;
-import ch.makery.address.view.PersonEditDialogController;
-import ch.makery.address.view.PersonOverviewController;
+import javafx.scene.image.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,91 +21,99 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import ch.makery.address.model.Person;
+import ch.makery.address.model.PersonListWrapper;
+import ch.makery.address.view.BirthdayStatisticsController;
+import ch.makery.address.view.PersonEditDialogController;
+import ch.makery.address.view.PersonOverviewController;
+import ch.makery.address.view.RootLayoutController;
 
 public class MainApp extends Application {
-	
-	 /**
-     * The data as an observable list of Persons.
-     */
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
 
-    /**
-     * Constructor
-     */
-    public MainApp() {
-        // Add some sample data
-        personData.add(new Person("Hans","Muster"));
-        personData.add(new Person("Ruth","Mueller"));
-        personData.add(new Person("Heinz","Kurz"));
-        personData.add(new Person("Cornelia","Meier"));
-        personData.add(new Person("Werner","Meyer"));
-        personData.add(new Person("Lydia","Kunz"));
-        personData.add(new Person("Anna","Best"));
-        personData.add(new Person("Stefan","Meier"));
-        personData.add(new Person("Martin","Mueller"));
-    }
-
-    /**
-     * Returns the data as an observable list of Persons. 
-     * @return
-     */
-    public ObservableList<Person> getPersonData() {
-        return personData;
-    }
-
-    // ... THE REST OF THE CLASS ...
     private Stage primaryStage;
     private BorderPane rootLayout;
     
-    
+  // ... AFTER THE OTHER VARIABLES ...
+//import OObservable + FXCollect + Person
+
+/**
+ * The data as an observable list of Persons.
+ */
+private ObservableList<Person> personData = FXCollections.observableArrayList();
+
+/**
+ * Constructor
+ */
+public MainApp() {
+    // Add some sample data
+    personData.add(new Person("Hans","Muster"));
+    personData.add(new Person("Ruth","Mueller"));
+    personData.add(new Person("Heinz","Kurz"));
+    personData.add(new Person("Cornelia","Meier"));
+    personData.add(new Person("Werner","Meyer"));
+    personData.add(new Person("Lydia","Kunz"));
+    personData.add(new Person("Anna","Best"));
+    personData.add(new Person("Stefan","Meier"));
+    personData.add(new Person("Martin","Mueller"));
+}
+
+/**
+ * Returns the data as an observable list of Persons. 
+ * @return
+ */
+public ObservableList<Person> getPersonData() {
+    return personData;
+}
+
+// ... THE REST OF THE CLASS ...
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("AddressApp");
-        this.primaryStage.getIcons().add(new Image("file:resources/images/address_book_32.png"));
-        initRootLayout();
-        showPersonOverview();
-        
-    }
+        this.primaryStage.getIcons().add(new Image("file:./resources/images/address_Book.png"));
 
+        initRootLayout();
+
+        showPersonOverview();
+    }
+    
     /**
-     * Initializes the root layout.
+     * Initializes the root layout and tries to load the last opened
+     * person file.
      */
+    
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class
-                    .getResource("../view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-
+            
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-
-            // Give the controller access to the main app.
-            RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
-
+            
+          // Give the controller access to the main app.
+          RootLayoutController controller = loader.getController();
+          controller.setMainApp(this);
+            
+            
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // Try to load last opened person file.
-        File file = getPersonFilePath();
-        if (file != null) {
-            loadPersonDataFromFile(file);
-        }
+        
+      // Try to load last opened person file.
+      File file = getPersonFilePath();
+      if (file != null) {
+          loadPersonDataFromFile(file);
+      }
     }
 
-    /**
-     * Shows the person overview inside the root layout.
-     * 
-		Muestra el resumen persona dentro de la disposición de la raíz.
-     */
+    
+
+
     /**
      * Shows the person overview inside the root layout.
      */
@@ -153,28 +123,28 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("../view/PersonOverview.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
-
+            
             // Set person overview into the center of root layout.
             rootLayout.setCenter(personOverview);
-
+            
             // Give the controller access to the main app.
-            PersonOverviewController controller=loader.getController();
+            PersonOverviewController controller = loader.getController();
             controller.setMainApp(this);
-
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    /*
-    * Abre un diálogo para editar los detalles de la persona especificada. Si el usuario
-    * Hace clic en Aceptar, los cambios se guardan en el objeto persona siempre y verdadero
-    * Se devuelve.
-    * 
-    *param Persona objeto persona a ser editado
-    *return True si el usuario hace clic en Aceptar, false en caso contrario.
-    */ 
     
+    //ADDED
+    /**
+     * Opens a dialog to edit details for the specified person. If the user
+     * clicks OK, the changes are saved into the provided person object and true
+     * is returned.
+     * 
+     * @param person the person object to be edited
+     * @return true if the user clicked OK, false otherwise.
+     */
     public boolean showPersonEditDialog(Person person) {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -204,8 +174,13 @@ public class MainApp extends Application {
             return false;
         }
     }
-    
-    
+    /**
+     * Returns the person file preference, i.e. the file that was last opened.
+     * The preference is read from the OS specific registry. If no such
+     * preference can be found, null is returned.
+     * 
+     * @return
+     */
     public File getPersonFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
         String filePath = prefs.get("filePath", null);
@@ -215,29 +190,7 @@ public class MainApp extends Application {
             return null;
         }
     }
-    
 
-    /**
-     * Returns the main stage.
-     * @return
-     */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
-    
-    /**
-     * Returns the person file preference, i.e. the file that was last opened.
-     * The preference is read from the OS specific registry. If no such
-     * preference can be found, null is returned.
-     * 
-     * @return
-     */
-  
     /**
      * Sets the file path of the currently loaded file. The path is persisted in
      * the OS specific registry.
@@ -258,8 +211,12 @@ public class MainApp extends Application {
             primaryStage.setTitle("AddressApp");
         }
     }
-    
-    
+    /**
+     * Loads person data from the specified file. The current person data will
+     * be replaced.
+     * 
+     * @param file
+     */
     public void loadPersonDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
@@ -282,7 +239,7 @@ public class MainApp extends Application {
                     .showException(e);
         }
     }
-    
+
     /**
      * Saves the current person data to the specified file.
      * 
@@ -300,7 +257,7 @@ public class MainApp extends Application {
             wrapper.setPersons(personData);
 
             // Marshalling and saving XML to the file.
-            m.marshal(wrapper,file);
+            m.marshal(wrapper, file);
 
             // Save the file path to the registry.
             setPersonFilePath(file);
@@ -309,8 +266,11 @@ public class MainApp extends Application {
                     .masthead("Could not save data to file:\n" + file.getPath())
                     .showException(e);
         }
-    }
+    }  
     
+    /**
+     * Opens a dialog to show birthday statistics.
+     */
     public void showBirthdayStatistics() {
         try {
             // Load the fxml file and create a new stage for the popup.
@@ -333,5 +293,17 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+	/**
+	 * Returns the main stage.
+	 * @return
+	 */
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

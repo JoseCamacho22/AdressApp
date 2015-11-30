@@ -9,7 +9,11 @@ import org.controlsfx.dialog.Dialogs;
 import ch.makery.address.model.Person;
 import ch.makery.address.util.DateUtil;
 
-
+/**
+ * Dialog to edit details of a person.
+ * 
+ * @author Miguelitox
+ */
 public class PersonEditDialogController {
 
     @FXML
